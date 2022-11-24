@@ -33,7 +33,6 @@ function ajout(ancre, article){
         if (items) {
         items.appendChild(ancre)
         ancre.appendChild(article)
-        console.log(items)
         }
     }
 }
@@ -61,24 +60,3 @@ function faireParagraphe (description) {
     p.classList.add("productDescription")
     return p
 }
-/*altTxt
-: 
-"Photo d'un canapé bleu, deux places"
-colors
-: 
-(3) ['Blue', 'White', 'Black']
-description
-: 
-"Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-imageUrl
-: 
-"http://localhost:3000/images/kanap01.jpeg"
-name
-: 
-"Kanap Sinopé"
-price
-: 
-1849
-_id
-: 
-"107fb5b75607497b96722bda5b504926"*/
