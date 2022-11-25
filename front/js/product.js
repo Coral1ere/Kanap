@@ -16,7 +16,7 @@ function pageProduit(canapes) {
     const desc = descriptif(description)
     const couleur = couleurs(colors)
     faireImage(imageUrl, altTxt)
-    
+
 }
 
 function faireImage(imageUrl, altTxt) {
@@ -29,6 +29,7 @@ function faireImage(imageUrl, altTxt) {
         if (item) {
             item.appendChild(image)  
         }  
+        return image
 }
 function noms(name) {
     const nom = document.getElementById("title")
@@ -61,36 +62,41 @@ function couleurs(colors) {
         });
         return colors
     }   
-    return couleur 
 }
 
 
 const bouton = document.getElementById("addToCart")
     if (bouton != 0) {
-        bouton.addEventListener("click", () => {
+        bouton.addEventListener("click", (e) => {
 
-        const couleur = document.getElementById("colors").value
-        const quantite = document.getElementById("quantity").value
-        
+        const couleur = document.getElementById("colors").value 
+        const quantite = document.getElementById("quantity").value 
     
-   if (couleur === 0 || couleur === ""  ||quantite === 0) {
-        alert("manque quantité et couleur")
-        return
-    
-    }
+   if (couleur === 0 || couleur === ""  || quantite === 0) {
+        return alert("manque quantité et couleur")    
+    } 
     produitsSauvegardes(couleur, quantite)  
+
 })
 }
-
 function produitsSauvegardes(couleur,quantite) {
-    const idCouleur = `${idProduit}/${couleur}`
+    const existe = localStorage.getItem(`${idProduit}-${couleur}`)
+
+        if(existe){
+            quantite = Number(quantite) + Number(JSON.parse(existe).quantity)    
+        } 
+    const idCouleur = `${idProduit}-${couleur}`
     const panier = {
         id: idProduit,
         colors: couleur,
-        quantity: Number (quantite),  
-    }
+        quantity: Number (quantite), 
+    
+    }    
+
     localStorage.setItem(idCouleur, JSON.stringify(panier))
+    alert("produit ajouté")
     document.location.reload() 
+
 }
 
 

@@ -1,14 +1,25 @@
 "user strict";
-let cart = window.localStorage.getItem("panier");
-let cartArray= JSON.parse(cart);
-console.log(cart);
 
-function produitsSauvegardes(couleur,quantite) {
-    const panier = {
-        id: idProduit,
-        colors: couleur,
-        quantity: Number (quantite),  
+    function produitsSauvegardes(couleur,quantite) {
+        const existe = localStorage.getItem(`${idProduit}-${couleur}`)
+    
+            if(existe){
+                quantite = Number(quantite) + Number(JSON.parse(existe).quantity)    
+            }
+
+        const idCouleur = `${idProduit}-${couleur}`
+        const panier = {
+            id: idProduit,
+            colors: couleur,
+            quantity: Number (quantite), 
+        }    
+        localStorage.setItem(idCouleur, JSON.stringify(panier))
+    } 
+
+    const cart = []
+    
+    function faireArticle(article) {
+        const article = document.createElement("article")
+        article.classList.add("cart__item")
     }
-    localStorage.setItem(idProduit, JSON.stringify(panier))
-    document.location.reload() 
-}
+  
