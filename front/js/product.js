@@ -16,7 +16,7 @@ function pageProduit(canapes) {
     const desc = descriptif(description)
     const couleur = couleurs(colors)
     faireImage(imageUrl, altTxt)
-
+    
 }
 
 function faireImage(imageUrl, altTxt) {
@@ -66,27 +66,34 @@ function couleurs(colors) {
 
 
 const bouton = document.getElementById("addToCart")
-if (bouton != 0) {
-    bouton.addEventListener("click", (e) => {
-    const couleur = document.getElementById("colors").value
-    const quantite = document.getElementById("quantity").value
-    if (couleur === 0 || couleur === ""  ||quantite === 0) {
-        alert("manque quantité et couleur")
-    }
+    if (bouton != 0) {
+        bouton.addEventListener("click", () => {
 
+        const couleur = document.getElementById("colors").value
+        const quantite = document.getElementById("quantity").value
+        
+    
+   if (couleur === 0 || couleur === ""  ||quantite === 0) {
+        alert("manque quantité et couleur")
+        return
+    
+    }
+    produitsSauvegardes(couleur, quantite)  
+})
+}
+
+function produitsSauvegardes(couleur,quantite) {
+    const idCouleur = `${idProduit}/${couleur}`
     const panier = {
         id: idProduit,
         colors: couleur,
-        quantity: Number (quantite),
-       
+        quantity: Number (quantite),  
     }
-    localStorage.setItem(idProduit, JSON.stringify(panier))
-    document.location.reload()
-})
+    localStorage.setItem(idCouleur, JSON.stringify(panier))
+    document.location.reload() 
 }
-let lien = document.querySelector("nav ul > a").nextElementSibling
-lien = bouton.cloneNode
-console.log(lien)
+
+
 
 
 

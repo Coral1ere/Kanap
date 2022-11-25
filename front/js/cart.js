@@ -1,3 +1,14 @@
-/*fetch("http://localhost:3000/api/cart")
-.then(response => response.json())
-.then(response2 => console.log(response2))*/
+"user strict";
+let cart = window.localStorage.getItem("panier");
+let cartArray= JSON.parse(cart);
+console.log(cart);
+
+function produitsSauvegardes(couleur,quantite) {
+    const panier = {
+        id: idProduit,
+        colors: couleur,
+        quantity: Number (quantite),  
+    }
+    localStorage.setItem(idProduit, JSON.stringify(panier))
+    document.location.reload() 
+}
