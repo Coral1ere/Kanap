@@ -31,6 +31,7 @@ function faireImage(imageUrl, altTxt) {
         }  
         return image
 }
+
 function noms(name) {
     const nom = document.getElementById("title")
     nom.textContent = name
@@ -85,6 +86,7 @@ function produitsSauvegardes(couleur,quantite) {
         if(existe){
             quantite = Number(quantite) + Number(JSON.parse(existe).quantity)    
         } 
+
     const idCouleur = `${idProduit}-${couleur}`
     const panier = {
         id: idProduit,
@@ -94,7 +96,7 @@ function produitsSauvegardes(couleur,quantite) {
     }    
 
     localStorage.setItem(idCouleur, JSON.stringify(panier))
-    alert("produit ajouté")
+    alert("produit ajouté");
     document.location.reload() 
 
 }
