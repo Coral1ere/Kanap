@@ -18,7 +18,9 @@ function recuperations(donnees) {
     
 }); 
 }
-
+function faireArticle(articles) {
+    const article = document.createElement("article")
+}
 function faireAncre(_id)  { 
 
  const ancre = document.createElement("a")

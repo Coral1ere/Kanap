@@ -1,6 +1,11 @@
 const lienProduit = window.location.search
 const parametres = new URLSearchParams(lienProduit)
 const idProduit = parametres.get("id")
+if (idProduit != null) {
+    let refPrix = 0
+    let imagesUrl, altTexte
+    let titre
+}
 
 
 fetch(`http://localhost:3000/api/products/${idProduit}`)
@@ -11,12 +16,15 @@ fetch(`http://localhost:3000/api/products/${idProduit}`)
 function pageProduit(canapes) {
 
     const {altTxt, colors, description, imageUrl, name, price} = canapes
-    const nom = noms(name)
-    const prix = tarif(price)
-    const desc = descriptif(description)
-    const couleur = couleurs(colors)
+    titre = name
+    imagesUrl = imageUrl
+    altTexte = altTxt
+    refPrix = price
+    noms(name)
+    tarif(price)
+    descriptif(description)
+    couleurs(colors)
     faireImage(imageUrl, altTxt)
-
 }
 
 function faireImage(imageUrl, altTxt) {
@@ -33,15 +41,15 @@ function faireImage(imageUrl, altTxt) {
 }
 
 function noms(name) {
-    const nom = document.getElementById("title")
-    nom.textContent = name
-    nom.classList.add("title")
+    const nom = document.getElementById("title");
+    nom.textContent = name;
+    nom.classList.add("title");
     return nom
 }
 function tarif(price) {
-    const prix = document.getElementById("price")
-    prix.textContent = price
-    prix.classList.add("price")
+    const prix = document.getElementById("price");
+    prix.textContent = price;
+    prix.classList.add("price");
     return prix
 }
 function descriptif(description) {
@@ -86,15 +94,19 @@ function produitsSauvegardes(couleur,quantite) {
         if(existe){
             quantite = Number(quantite) + Number(JSON.parse(existe).quantity)    
         } 
-
+    // Pour différencier la couleur de l'Id
     const idCouleur = `${idProduit}-${couleur}`
+    // Tout ce qu'on sauvegarde
     const panier = {
         id: idProduit,
-        colors: couleur,
+        color: couleur,
         quantity: Number (quantite), 
-    
+        price: refPrix,
+        imageUrl: imagesUrl,
+        altTxt: altTexte,
+        name: titre,
     }    
-
+    // Pour enregistrer ce qui est dans le panier
     localStorage.setItem(idCouleur, JSON.stringify(panier))
     alert("produit ajouté");
     document.location.reload() 
