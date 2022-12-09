@@ -139,8 +139,8 @@ function recupObjets() {
          //Enregistrer le changement
     function changementQuantite(item) {
         const panier = JSON.stringify(item);
-        const idCouleur = `${item.id}-${item.color}`; 
-        localStorage.setItem(idCouleur, panier);
+        const key = `${item.id}-${item.color}`; 
+        localStorage.setItem(key, panier);
     
     }
 
@@ -149,7 +149,6 @@ function recupObjets() {
         cartItemContentSettingsDelete.classList.add("cart__item__content__settings__delete");
         cartItemContentSettingsDelete.addEventListener("click", () => supprimerArticle(item))
         
-
         const deleteItems = document.createElement("p");
         deleteItems.classList.add("deleteItem");
         deleteItems.textContent = "Supprimer";
@@ -167,10 +166,12 @@ function recupObjets() {
             totalPrix();
             effaceSauvegarde(item);
             effaceArticle(item);
+            
         }
     function effaceSauvegarde(item) {
         const idCouleur = `${item.id}-${item.color}`; 
-        localStorage.removeItem(idCouleur); 
+        localStorage.removeItem("idCouleur"); 
+        return;
     }
     function effaceArticle(item) {
         const articleSupprime = document.querySelector(
@@ -179,56 +180,62 @@ function recupObjets() {
             articleSupprime.remove();
     }
 
+
 // Formulaire
     const boutonCommander = document.getElementById("order");
     boutonCommander.addEventListener("click", (e) => recupFormulaire(e));
 
-    function recupFormulaire(e) {
+function recupFormulaire(e) {
     e.preventDefault();
     if (cart.length === 0) {
-    alert("Sélectionner article !");
-    return 
+        alert("Sélectionner article !");
+        return 
     }
     if (invalidationFormulaire()) return;
     if (invalidationEmail()) return;
 
     const demande = faireDemande();
-    const requete = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(demande)
-    };
+    function invalidationFormulaire() {
+        const form = document.querySelector(".cart__order__form");
+        const inputs = document.querySelectorAll("input");
+        inputs.forEach((input) => {
+            if (input.value === "") {
+                alert ("Veuillez renseigner tous les champs");
+                return true;
+            }
+                return false;
+        })
+    }
+    function invalidationEmail() {
+        const email = document.querySelector("#email").value;
+        const verif = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/;
+                   if (verif.exec(email) === null) {
+                    alert("Votre email est incorrect");
+                    return true;
+                }			
+                    return false;
+    }
+   
+        const requete = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(demande),
+        };
     fetch("http://localhost:3000/api/products/order", requete)
+    
     .then((response) => response.json())
     .then((response2) => {
+    // Envoi du orderId sur la page confirmation
         const orderId = response2.orderId;
-        window.location.href = "/html/confirmation.html" + "?orderId=" + orderId;
-        return console.log(response2)
+        window.location.href = "./confirmation.html" + "?orderId=" + orderId;
+       
+        
     })  
     .catch((error) => console.log(error))  
-}  
-function invalidationFormulaire() {
-    const form = document.querySelector(".cart__order__form");
-    const inputs = document.querySelectorAll("input");
-    inputs.forEach((input) => {
-        if (input.value === "") {
-            alert ("Veuillez renseigner tous les champs");
-            return true;
-        }
-            return false;
-    })
-}
-function invalidationEmail() {
-    const email = document.querySelector("#email").value;
-    const verif = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/;
-   			if (verif.exec(email) === null) {
+    }
+ 
 
-				alert("Votre email est incorrect");
-				return false;
-			}
-			
-				return true;
-}
+// Création des éléments du formulaire
 function faireDemande() {
     const form = document.querySelector(".cart__order__form");
     const firstName = form.elements.firstName.value;
@@ -248,6 +255,7 @@ function faireDemande() {
     }
     return demande;
 }
+
 function articlesAchetes() {
     const nombreArticles = localStorage.length;
     const articles = [];
