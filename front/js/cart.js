@@ -154,24 +154,22 @@ function recupObjets() {
         deleteItems.textContent = "Supprimer";
         cartItemContentSettingsDelete.appendChild(deleteItems);
        
-        totalQuantite(item)
-        totalPrix(item)
+        totalQuantite()
+        totalPrix()
         changementQuantite(item)
         return cartItemContentSettingsDelete
     }
         function supprimerArticle(item) {
             const articleSupprime = cart.findIndex((product) => product.id === item.id && product.color === item.color)
-            cart.splice(articleSupprime);
+            cart.splice(articleSupprime, 1);
             totalQuantite();
             totalPrix();
             effaceSauvegarde(item);
             effaceArticle(item);
-            
         }
     function effaceSauvegarde(item) {
         const idCouleur = `${item.id}-${item.color}`; 
-        localStorage.removeItem("idCouleur"); 
-        return;
+        localStorage.removeItem(idCouleur); 
     }
     function effaceArticle(item) {
         const articleSupprime = document.querySelector(
@@ -179,7 +177,6 @@ function recupObjets() {
             )
             articleSupprime.remove();
     }
-
 
 // Formulaire
     const boutonCommander = document.getElementById("order");
@@ -193,6 +190,10 @@ function recupFormulaire(e) {
     }
     if (invalidationFormulaire()) return;
     if (invalidationEmail()) return;
+    if (invalidationPrenom()) return;
+    if (invalidationNom()) return;
+    if (invalidationAdresse()) return;
+    if (invalidationVille()) return;
 
     const demande = faireDemande();
     function invalidationFormulaire() {
@@ -206,16 +207,56 @@ function recupFormulaire(e) {
                 return false;
         })
     }
+    function invalidationPrenom() {
+        const prenom = document.querySelector("#firstName").value;
+        const verif = /^(?:[^\d\W][\-\s\']{0,1}){2,20}$/i;
+            if(verif.exec(prenom) === null) {
+                const alert = document.querySelector("#firstNameErrorMsg");
+                alert.textContent = "Votre prénom est incorrect";
+                return true;
+            }
+                return false;
+    }
+    function invalidationNom() {
+        const nom = document.querySelector("#lastName").value;
+        const verif = /^[a-zA-Z ]+$/;
+            if (verif.exec(nom) === null) {
+                const alert = document.querySelector("#lastNameErrorMsg");
+                alert.textContent = "Votre nom est incorrect";
+                return true;
+            }
+                return false;
+    } 
+    function invalidationAdresse() {
+        const adresse = document.querySelector("#address").value;
+        const verif = /^([1-9][0-9]*(?:-[1-9][0-9]*)*)[\s,-]+(?:(bis|ter|qua)[\s,-]+)?([\w]+[\-\w]*)[\s,]+([-\w].+)$/gmiu;   
+        if (verif.exec(adresse) === null) {
+                const alert = document.querySelector("#addressErrorMsg")
+                alert.textContent = "Votre adresse est incorrecte";
+                return true;
+            }
+            return false
+    } 
+    function invalidationVille() {
+        const ville = document.querySelector("#city").value;
+        const verif = /[az-]+/;
+            if (verif.exec(ville) === null) {
+                const alert = document.querySelector("#cityErrorMsg")
+                alert.textContent = "Votre ville est incorrecte";
+                return true;
+            }
+                return false;
+    }         
     function invalidationEmail() {
         const email = document.querySelector("#email").value;
         const verif = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/;
-                   if (verif.exec(email) === null) {
-                    alert("Votre email est incorrect");
-                    return true;
+                if (verif.exec(email) === null) {
+                    const alert = document.querySelector("#emailErrorMsg")
+                alert.textContent = "Votre email est incorrect";
+                return true;
                 }			
-                    return false;
-    }
-   
+                return false;
+    }  
         const requete = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -228,7 +269,7 @@ function recupFormulaire(e) {
     // Envoi du orderId sur la page confirmation
         const orderId = response2.orderId;
         window.location.href = "./confirmation.html" + "?orderId=" + orderId;
-       
+        console.log("confirmation success");
         
     })  
     .catch((error) => console.log(error))  
