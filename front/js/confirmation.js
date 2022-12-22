@@ -1,15 +1,19 @@
+// Récupération du numéro de commande
+const lienProduit = window.location.search;
+const parametres = new URLSearchParams(lienProduit);
+let orderId = parametres.get("orderId");
 
-const lienProduit = window.location.search
-const parametres = new URLSearchParams(lienProduit)
-const orderId = parametres.get("orderId")
+afficherNumeroCommande();
 
-
-let numeroCommande = afficherNumeroCommande()
 function afficherNumeroCommande () {
     let numeroCommande = document.getElementById("orderId");
-    numeroCommande.textContent = orderId + "   (Avec nos remerciements)";
-    numeroCommande = parametres.get("orderId");
+    numeroCommande.innerHTML = `<br>${orderId}<br>Avec nos remerciements`;
+    parametres.set("orderId", "");
+    orderId = "";
+    return 
 }
 
-localStorage.clear();
+
+
+
 
