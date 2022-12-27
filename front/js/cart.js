@@ -201,22 +201,6 @@ function recupFormulaire(e) {
         alert("Sélectionner article !");
         return 
     }
-   
-    for (let i = 0; i < cart.length; i++) {
-        const id = cart[i].id;
-        const verifPrix = cart[i].price; 
-        fetch(`http://localhost:3000/api/products/${id}`)
-        .then(response => response.json())
-        .then(x => verifierPrix(x.price))
-
-        function verifierPrix (prixCatalogue) {
-            console.log("catalogue:" + prixCatalogue + " prix: " + verifPrix)        
-            if (verifPrix != prixCatalogue) {  
-                alert("Le prix est faux. Votre panier n'est pas validé")    
-                return true;
-            }
-        }
-    }
 
     // Pour ne pas recharger la page
     if (invalidationFormulaire()) return;
