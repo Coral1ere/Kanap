@@ -1,0 +1,1 @@
+front/js/product.js

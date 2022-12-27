@@ -9,7 +9,7 @@ if (idProduit != null) {
     let titre
 }
 
-// Requête envoyée à l'api pour récupérer les données
+// Requête envoyée à l'api pour récupérer les données 
 fetch(`http://localhost:3000/api/products/${idProduit}`)
 // Réponse de la requete au format json
 .then(response => response.json())
