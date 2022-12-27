@@ -86,6 +86,9 @@ function couleurs(colors) {
    if (couleur === 0 || couleur === ""  || quantite === 0) {
         return alert("manque quantité et couleur")    
     } 
+    if (quantite < 1 || quantite > 100) {
+        return alert("La quantité doit être entre 1 et 100")
+    }
     produitsSauvegardes(couleur, quantite)  
 })
 }
