@@ -132,7 +132,7 @@ function recupObjets() {
     // Mise à jour nouvelles quantités, prix
     function majQuantitePrix(id, nouvelleValeur, item) {
     /*On cherche dans le cart s'il y a un produit dont 
-    l'id est égal à l'id du produit que je veux supprimer. */
+    l'id est égal à l'id du produit qui a été ajouté. */
         const maj = cart.find((item) => item.id === id);
         maj.total = Number(nouvelleValeur);
         item.quantity = maj.total;

@@ -1,4 +1,4 @@
-// Récupération de la chaine de requete
+// Renvoie l'id du produit choisi dans l'Url
 const lienProduit = window.location.search
 // Analyse des parametres de la chaine
 const parametres = new URLSearchParams(lienProduit)
@@ -9,7 +9,7 @@ if (idProduit != null) {
     let titre
 }
 
-// Requête envoyée à l'api
+// Requête envoyée à l'api pour récupérer les données
 fetch(`http://localhost:3000/api/products/${idProduit}`)
 // Réponse de la requete au format json
 .then(response => response.json())
@@ -98,7 +98,7 @@ function produitsSauvegardes(couleur,quantite) {
     // Utilisation de JSON.parse pour transformer un string en objet
             quantite = Number(quantite) + Number(JSON.parse(existe).quantity)    
         } 
-    // Pour différencier la couleur de l'Id
+    // Pour ajouter la couleur à l'Id
     const idCouleur = `${idProduit}-${couleur}`
     // Tout ce qu'on sauvegarde
     const panier = {
